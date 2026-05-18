@@ -1,0 +1,40 @@
+databaseChangeLog:
+  - objectQuotingStrategy: QUOTE_ALL_OBJECTS
+  - changeSet:
+      id: 001-create-sitzplaetze
+      author: copilot
+      changes:
+        - createTable:
+            tableName: sitzplatz
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  defaultValueComputed: RANDOM_UUID()
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: bereich_typ
+                  type: VARCHAR(32)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: nummer_reihe
+                  type: INT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: nummer_position
+                  type: VARCHAR(1)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: gesperrt
+                  type: BOOLEAN
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            tableName: sitzplatz
+            columnNames: bereich_typ, nummer_reihe, nummer_position
+            constraintName: uq_sitzplatz_bereich_nummer

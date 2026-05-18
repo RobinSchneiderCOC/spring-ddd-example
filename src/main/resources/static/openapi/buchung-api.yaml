@@ -1,0 +1,68 @@
+openapi: 3.0.3
+info:
+  title: Buchung API
+  version: 1.0.0
+  description: REST API für das Buchung-Modul.
+tags:
+  - name: Buchung
+paths:
+  /buchungen/anlegen:
+    post:
+      tags:
+        - Buchung
+      operationId: bucheSitzplaetze
+      summary: Bucht einen oder mehrere Sitzplätze
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BuchungAnlegenRequest'
+      responses:
+        '200':
+          description: Buchung wurde angelegt
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BuchungAnlegenResponse'
+        '400':
+          description: Validierungsfehler (z.B. Sitzplatz gesperrt oder bereits gebucht)
+  /buchungen/{buchungId}/stornieren:
+    post:
+      tags:
+        - Buchung
+      operationId: storniereBuchung
+      summary: Storniert eine Buchung
+      parameters:
+        - name: buchungId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Buchung wurde storniert
+        '400':
+          description: Buchung kann nicht storniert werden
+components:
+  schemas:
+    BuchungAnlegenRequest:
+      type: object
+      required:
+        - sitzplatzIds
+      properties:
+        sitzplatzIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          minItems: 1
+    BuchungAnlegenResponse:
+      type: object
+      required:
+        - buchungId
+      properties:
+        buchungId:
+          type: string
+          format: uuid

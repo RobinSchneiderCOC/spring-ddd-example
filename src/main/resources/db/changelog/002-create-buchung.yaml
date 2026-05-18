@@ -1,0 +1,44 @@
+databaseChangeLog:
+  - objectQuotingStrategy: QUOTE_ALL_OBJECTS
+  - changeSet:
+      id: 003-create-buchung
+      author: copilot
+      changes:
+        - createTable:
+            tableName: buchung
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  defaultValueComputed: RANDOM_UUID()
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: status
+                  type: VARCHAR(32)
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: buchung_sitzplatz
+            columns:
+              - column:
+                  name: buchung_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: sitzplatz_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            tableName: buchung_sitzplatz
+            columnNames: buchung_id, sitzplatz_id
+            constraintName: pk_buchung_sitzplatz
+        - addForeignKeyConstraint:
+            baseTableName: buchung_sitzplatz
+            baseColumnNames: buchung_id
+            referencedTableName: buchung
+            referencedColumnNames: id
+            constraintName: fk_buchung_sitzplatz_buchung

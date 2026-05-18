@@ -1,0 +1,102 @@
+openapi: 3.0.3
+info:
+  title: Platzstruktur API
+  version: 1.0.0
+  description: REST API für das Platzstruktur-Modul.
+tags:
+  - name: Platzstruktur
+paths:
+  /platzstruktur/sitzplaetze/anlegen:
+    post:
+      tags:
+        - Platzstruktur
+      operationId: legeSitzplatzAn
+      summary: Legt einen Sitzplatz an
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SitzplatzAnlegenRequest'
+      responses:
+        '200':
+          description: Sitzplatz wurde angelegt
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SitzplatzAnlegenResponse'
+  /platzstruktur/sitzplaetze/{sitzplatzId}/sperren:
+    post:
+      tags:
+        - Platzstruktur
+      operationId: sperreSitzplatz
+      summary: Sperrt einen Sitzplatz
+      parameters:
+        - name: sitzplatzId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Sitzplatz wurde gesperrt
+  /platzstruktur/sitzplaetze/{sitzplatzId}/freigeben:
+    post:
+      tags:
+        - Platzstruktur
+      operationId: gibSitzplatzFrei
+      summary: Gibt einen Sitzplatz frei
+      parameters:
+        - name: sitzplatzId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Sitzplatz wurde freigegeben
+  /platzstruktur/sitzplaetze/{sitzplatzId}/entfernen:
+    post:
+      tags:
+        - Platzstruktur
+      operationId: entferneSitzplatz
+      summary: Entfernt einen Sitzplatz
+      parameters:
+        - name: sitzplatzId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Sitzplatz wurde entfernt
+components:
+  schemas:
+    BereichTyp:
+      type: string
+      enum:
+        - VORNE
+        - MITTE
+        - HINTEN
+    SitzplatzAnlegenRequest:
+      type: object
+      required:
+        - bereichTyp
+        - nummer
+      properties:
+        bereichTyp:
+          $ref: '#/components/schemas/BereichTyp'
+        nummer:
+          type: string
+          example: 1B
+    SitzplatzAnlegenResponse:
+      type: object
+      required:
+        - sitzplatzId
+      properties:
+        sitzplatzId:
+          type: string
+          format: uuid

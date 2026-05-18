@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - include:
+      file: 001-create-sitzplatz.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: 002-create-buchung.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: 010-add-sitzplatz-testdata.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: 011-add-buchung-testdata.yaml
+      relativeToChangelogFile: true

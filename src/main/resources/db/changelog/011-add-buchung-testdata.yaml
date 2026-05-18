@@ -1,0 +1,53 @@
+databaseChangeLog:
+  - objectQuotingStrategy: QUOTE_ALL_OBJECTS
+  - changeSet:
+      id: 011-add-buchung-testdata
+      author: copilot
+      changes:
+        # Aktive Buchung für Sitzplätze 3A (HINTEN) und 2A (MITTE)
+        - insert:
+            tableName: buchung
+            columns:
+              - column:
+                  name: id
+                  value: "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
+              - column:
+                  name: status
+                  value: AKTIV
+        - insert:
+            tableName: buchung_sitzplatz
+            columns:
+              - column:
+                  name: buchung_id
+                  value: "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
+              - column:
+                  name: sitzplatz_id
+                  value: "44444444-4444-4444-4444-444444444444"
+        - insert:
+            tableName: buchung_sitzplatz
+            columns:
+              - column:
+                  name: buchung_id
+                  value: "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
+              - column:
+                  name: sitzplatz_id
+                  value: "33333333-3333-3333-3333-333333333333"
+        # Stornierte Buchung für Sitzplatz 2A (MITTE) – war vor der Stornierung gebucht
+        - insert:
+            tableName: buchung
+            columns:
+              - column:
+                  name: id
+                  value: "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"
+              - column:
+                  name: status
+                  value: STORNIERT
+        - insert:
+            tableName: buchung_sitzplatz
+            columns:
+              - column:
+                  name: buchung_id
+                  value: "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"
+              - column:
+                  name: sitzplatz_id
+                  value: "33333333-3333-3333-3333-333333333333"
